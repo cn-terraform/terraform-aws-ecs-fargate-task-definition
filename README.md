@@ -12,7 +12,7 @@ Check versions for this module on:
 
         module "td" {
     	    source          = "jnonino/ecs-fargate-task-definition/aws"
-            version         = "1.0.0"
+            version         = "1.0.1"
             name_preffix    = var.name_preffix
             profile         = var.profile
             region          = var.region
@@ -60,3 +60,5 @@ Check versions for this module on:
 * aws_ecs_task_definition_td_arn - Full ARN of the Task Definition (including both family and revision).
 * aws_ecs_task_definition_td_family - The family of the Task Definition.
 * aws_ecs_task_definition_td_revision - The revision of the task in a particular family.
+* container_port: Port on which the container is listening
+
