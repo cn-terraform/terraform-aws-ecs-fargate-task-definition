@@ -2,7 +2,7 @@
 
 This Terraform module creates an AWS ECS Fargate task definition.
 
-
+[![CircleCI](https://circleci.com/gh/jnonino/terraform-aws-ecs-fargate-task-definition/tree/master.svg?style=svg)](https://circleci.com/gh/jnonino/terraform-aws-ecs-fargate-task-definition/tree/master)
 
 ## Usage
 
