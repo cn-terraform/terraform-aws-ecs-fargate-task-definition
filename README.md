@@ -10,7 +10,7 @@ Check versions for this module on:
 * Github Releases: <https://github.com/jnonino/terraform-aws-ecs-fargate-task-definition/releases>
 * Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-fargate-task-definition/aws>
 
-        module "networking" {
+        module "td" {
     	    source          = "jnonino/ecs-fargate-task-definition/aws"
             version         = "1.0.0"
             name_preffix    = var.name_preffix
