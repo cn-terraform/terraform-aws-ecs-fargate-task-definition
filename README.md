@@ -11,7 +11,7 @@ Check versions for this module on:
 * Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-fargate-task-definition/aws>
 
         module "td" {
-    	    source          = "jnonino/ecs-fargate-task-definition/aws"
+    	      source          = "jnonino/ecs-fargate-task-definition/aws"
             version         = "1.0.2"
             name_preffix    = var.name_preffix
             profile         = var.profile
@@ -19,7 +19,7 @@ Check versions for this module on:
             container_name  = "${var.name_preffix}-<NAME>"
             container_image = "<IMAGE_NAME>:<IMAGE_TAG>"
             container_port  = <PORT>
-    	}
+    	  }
 
 ## Input values
 
