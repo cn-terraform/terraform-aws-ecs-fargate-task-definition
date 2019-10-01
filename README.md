@@ -2,22 +2,22 @@
 
 This Terraform module creates an AWS ECS Fargate task definition.
 
-[![CircleCI](https://circleci.com/gh/jnonino/terraform-aws-ecs-fargate-task-definition/tree/master.svg?style=svg)](https://circleci.com/gh/jnonino/terraform-aws-ecs-fargate-task-definition/tree/master)
-[![](https://img.shields.io/github/license/jnonino/terraform-aws-ecs-fargate-task-definition)](https://github.com/jnonino/terraform-aws-ecs-fargate-task-definition)
-[![](https://img.shields.io/github/issues/jnonino/terraform-aws-ecs-fargate-task-definition)](https://github.com/jnonino/terraform-aws-ecs-fargate-task-definition)
-[![](https://img.shields.io/github/issues-closed/jnonino/terraform-aws-ecs-fargate-task-definition)](https://github.com/jnonino/terraform-aws-ecs-fargate-task-definition)
-[![](https://img.shields.io/github/languages/code-size/jnonino/terraform-aws-ecs-fargate-task-definition)](https://github.com/jnonino/terraform-aws-ecs-fargate-task-definition)
-[![](https://img.shields.io/github/repo-size/jnonino/terraform-aws-ecs-fargate-task-definition)](https://github.com/jnonino/terraform-aws-ecs-fargate-task-definition)
+[![CircleCI](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-task-definition/tree/master.svg?style=svg)](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-task-definition/tree/master)
+[![](https://img.shields.io/github/license/cn-terraform/terraform-aws-ecs-fargate-task-definition)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition)
+[![](https://img.shields.io/github/issues/cn-terraform/terraform-aws-ecs-fargate-task-definition)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition)
+[![](https://img.shields.io/github/issues-closed/cn-terraform/terraform-aws-ecs-fargate-task-definition)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition)
+[![](https://img.shields.io/github/languages/code-size/cn-terraform/terraform-aws-ecs-fargate-task-definition)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition)
+[![](https://img.shields.io/github/repo-size/cn-terraform/terraform-aws-ecs-fargate-task-definition)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition)
 
 ## Usage
 
 Check versions for this module on:
-* Github Releases: <https://github.com/jnonino/terraform-aws-ecs-fargate-task-definition/releases>
-* Terraform Module Registry: <https://registry.terraform.io/modules/jnonino/ecs-fargate-task-definition/aws>
+* Github Releases: <https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition/releases>
+* Terraform Module Registry: <https://registry.terraform.io/modules/cn-terraform/ecs-fargate-task-definition/aws>
 
         module "td" {
-    	      source          = "jnonino/ecs-fargate-task-definition/aws"
-            version         = "1.0.2"
+    	      source          = "cn-terraform/ecs-fargate-task-definition/aws"
+            version         = "1.0.3"
             name_preffix    = var.name_preffix
             profile         = var.profile
             region          = var.region
