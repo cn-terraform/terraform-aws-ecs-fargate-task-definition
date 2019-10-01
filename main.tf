@@ -10,8 +10,8 @@ provider "aws" {
 # AWS Cloudwatch Logs
 # ---------------------------------------------------------------------------------------------------------------------
 module "aws_cw_logs" {
-  source    = "jnonino/cloudwatch-logs/aws"
-  version   = "1.0.2"
+  source    = "cn-terraform/cloudwatch-logs/aws"
+  version   = "1.0.3"
   logs_path = local.log_options["awslogs-group"]
   profile   = var.profile
   region    = var.region
@@ -38,31 +38,31 @@ module "container_definition" {
   source  = "cloudposse/ecs-container-definition/aws"
   version = "0.15.0"
 
-  container_image              = var.container_image
   container_name               = var.container_name
-  command                      = var.command
-  container_cpu                = var.container_cpu
-  container_depends_on         = var.container_depends_on
+  container_image              = var.container_image
   container_memory             = var.container_memory
   container_memory_reservation = var.container_memory_reservation
-  dns_servers                  = var.dns_servers
-  entrypoint                   = var.entrypoint
-  environment                  = var.environment
-  essential                    = var.essential
+  port_mappings                = local.port_mappings
   healthcheck                  = var.healthcheck
-  links                        = var.links
+  container_cpu                = var.container_cpu
+  essential                    = var.essential
+  entrypoint                   = var.entrypoint
+  command                      = var.command
+  working_directory            = var.working_directory
+  environment                  = var.environment
+  secrets                      = var.secrets
+  readonly_root_filesystem     = var.readonly_root_filesystem
   log_driver                   = local.log_driver
   log_options                  = local.log_options
   mount_points                 = var.mount_points
-  port_mappings                = local.port_mappings
-  readonly_root_filesystem     = var.readonly_root_filesystem
-  repository_credentials       = var.repository_credentials
-  secrets                      = var.secrets
-  stop_timeout                 = var.stop_timeout
+  dns_servers                  = var.dns_servers
   ulimits                      = var.ulimits
-  user                         = var.user
+  repository_credentials       = var.repository_credentials
   volumes_from                 = var.volumes_from
-  working_directory            = var.working_directory
+  links                        = var.links
+  user                         = var.user
+  container_depends_on         = var.container_depends_on
+  stop_timeout                 = var.stop_timeout
 }
 
 # Task Definition
