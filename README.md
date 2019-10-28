@@ -16,15 +16,15 @@ Check versions for this module on:
 * Terraform Module Registry: <https://registry.terraform.io/modules/cn-terraform/ecs-fargate-task-definition/aws>
 
         module "td" {
-    	      source          = "cn-terraform/ecs-fargate-task-definition/aws"
-            version         = "1.0.5"
-            name_preffix    = var.name_preffix
-            profile         = var.profile
-            region          = var.region
-            container_name  = "${var.name_preffix}-<NAME>"
-            container_image = "<IMAGE_NAME>:<IMAGE_TAG>"
-            container_port  = <PORT>
-    	  }
+              source          = "cn-terraform/ecs-fargate-task-definition/aws"
+              version         = "1.0.5"
+              name_preffix    = var.name_preffix
+              profile         = var.profile
+              region          = var.region
+              container_name  = "${var.name_preffix}-<NAME>"
+              container_image = "<IMAGE_NAME>:<IMAGE_TAG>"
+              container_port  = <PORT>
+        }
 
 ## Input values
 
