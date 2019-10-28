@@ -17,7 +17,7 @@ Check versions for this module on:
 
         module "td" {
     	      source          = "cn-terraform/ecs-fargate-task-definition/aws"
-            version         = "1.0.3"
+            version         = "1.0.4"
             name_preffix    = var.name_preffix
             profile         = var.profile
             region          = var.region
@@ -46,6 +46,7 @@ Check versions for this module on:
 * readonly_root_filesystem: (Optional) Determines whether a container is given read-only access to its root filesystem. Due to how Terraform type casts booleans in json it is required to double quote this value.
 * repository_credentials: (Optional) Container repository credentials; required when using a private repo.  This map currently supports a single key; "credentialsParameter", which should be the ARN of a Secrets Manager's secret holding the credentials.
 * secrets: (Optional) The secrets to pass to the container. This is a list of maps.
+* start_timeout: (Optional) Time duration (in seconds) to wait before giving up on resolving dependencies for a container.
 * stop_timeout: (Optional) Timeout in seconds between sending SIGTERM and SIGKILL to container.
 * ulimits: (Optional) Container ulimit settings. This is a list of maps, where each map should contain "name", "hardLimit" and "softLimit".
 * user: (Optional) The user to run as inside the container. Can be any of these formats:  user, user:group, uid, uid:gid, user:gid, uid:group.
