@@ -175,7 +175,7 @@ variable "start_timeout" {
 
 variable "system_controls" {
   type        = list(map(string))
-  description = "A list of namespaced kernel parameters to set in the container, mapping to the --sysctl option to docker run. This is a list of maps: { namespace = \"\", value = \"\"}"
+  description = "(Optional) A list of namespaced kernel parameters to set in the container, mapping to the --sysctl option to docker run. This is a list of maps: { namespace = \"\", value = \"\"}"
   default     = null
 }
 
