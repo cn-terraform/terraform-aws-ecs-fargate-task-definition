@@ -17,7 +17,7 @@ Check versions for this module on:
 
         module "td" {
     	      source          = "cn-terraform/ecs-fargate-task-definition/aws"
-            version         = "1.0.4"
+            version         = "1.0.5"
             name_preffix    = var.name_preffix
             profile         = var.profile
             region          = var.region
@@ -54,6 +54,9 @@ Check versions for this module on:
 * working_directory: (Optional) The working directory to run commands inside the container.
 * placement_constraints: (Optional) A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. This is a list of maps, where each map should contain "type" and "expression".
 * proxy_configuration: (Optional) The proxy configuration details for the App Mesh proxy. This is a list of maps, where each map should contain "container_name", "properties" and "type"
+* system_controls: A list of namespaced kernel parameters to set in the container, mapping to the --sysctl option to docker run. This is a list of maps: { namespace = \"\", value = \"\"}"
+* firelens_configuration: The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more details, see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_FirelensConfiguration.html
+* log_configuration: Log configuration options to send to a custom log driver for the container. For more details, see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html
 
 ## Output values
 

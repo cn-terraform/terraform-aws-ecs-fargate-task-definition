@@ -7,17 +7,6 @@ provider "aws" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# AWS Cloudwatch Logs
-# ---------------------------------------------------------------------------------------------------------------------
-module "aws_cw_logs" {
-  source    = "cn-terraform/cloudwatch-logs/aws"
-  version   = "1.0.3"
-  logs_path = local.log_options["awslogs-group"]
-  profile   = var.profile
-  region    = var.region
-}
-
-# ---------------------------------------------------------------------------------------------------------------------
 # AWS ECS Task Execution Role
 # ---------------------------------------------------------------------------------------------------------------------
 resource "aws_iam_role" "ecs_task_execution_role" {
@@ -52,11 +41,10 @@ module "container_definition" {
   environment                  = var.environment
   secrets                      = var.secrets
   readonly_root_filesystem     = var.readonly_root_filesystem
-  log_driver                   = local.log_driver
-  log_options                  = local.log_options
   mount_points                 = var.mount_points
   dns_servers                  = var.dns_servers
   ulimits                      = var.ulimits
+  docker_labels                = var.docker_labels
   repository_credentials       = var.repository_credentials
   volumes_from                 = var.volumes_from
   links                        = var.links
@@ -64,6 +52,9 @@ module "container_definition" {
   container_depends_on         = var.container_depends_on
   start_timeout                = var.start_timeout
   stop_timeout                 = var.stop_timeout
+  system_controls              = var.system_controls
+  firelens_configuration       = var.firelens_configuration
+  log_configuration            = var.log_configuration
 }
 
 # Task Definition

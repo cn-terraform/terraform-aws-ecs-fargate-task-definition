@@ -67,6 +67,12 @@ variable "dns_servers" {
   default     = []
 }
 
+variable "docker_labels" {
+  type        = map(string)
+  description = "The configuration options to send to the `docker_labels`"
+  default     = null
+}
+
 variable "entrypoint" {
   type        = list
   description = "(Optional) The entry point that is passed to the container"
@@ -85,10 +91,27 @@ variable "essential" {
   default     = "true"
 }
 
+# https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_FirelensConfiguration.html
+variable "firelens_configuration" {
+  type = object({
+    type    = string
+    options = map(string)
+  })
+  description = "The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more details, see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_FirelensConfiguration.html"
+  default     = null
+}
+
+# https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html
 variable "healthcheck" {
-  type        = map
-  description = "(Optional) A map containing command (string), interval (duration in seconds), retries (1-10, number of times to retry before marking container unhealthy, and startPeriod (0-300, optional grace period to wait, in seconds, before failed healthchecks count toward retries)"
-  default     = {}
+  type = object({
+    command     = list(string)
+    retries     = number
+    timeout     = number
+    interval    = number
+    startPeriod = number
+  })
+  description = "A map containing command (string), timeout, interval (duration in seconds), retries (1-10, number of times to retry before marking container unhealthy), and startPeriod (0-300, optional grace period to wait, in seconds, before failed healthchecks count toward retries)"
+  default     = null
 }
 
 variable "links" {
@@ -97,13 +120,18 @@ variable "links" {
   default     = []
 }
 
-locals {
-  log_driver = "awslogs"
-  log_options = {
-    "awslogs-region"        = var.region
-    "awslogs-group"         = "/ecs/service/${var.name_preffix}"
-    "awslogs-stream-prefix" = "ecs"
-  }
+# https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html
+variable "log_configuration" {
+  type = object({
+    logDriver = string
+    options   = map(string)
+    secretOptions = list(object({
+      name      = string
+      valueFrom = string
+    }))
+  })
+  description = "Log configuration options to send to a custom log driver for the container. For more details, see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html"
+  default     = null
 }
 
 variable "mount_points" {
@@ -121,7 +149,7 @@ locals {
     },
   ]
 }
-
+	
 variable "readonly_root_filesystem" {
   type        = string
   description = "(Optional) Determines whether a container is given read-only access to its root filesystem. Due to how Terraform type casts booleans in json it is required to double quote this value"
@@ -143,6 +171,12 @@ variable "secrets" {
 variable "start_timeout" {
   description = "(Optional) Time duration (in seconds) to wait before giving up on resolving dependencies for a container."
   default     = 30
+}
+
+variable "system_controls" {
+  type        = list(map(string))
+  description = "A list of namespaced kernel parameters to set in the container, mapping to the --sysctl option to docker run. This is a list of maps: { namespace = \"\", value = \"\"}"
+  default     = null
 }
 
 variable "stop_timeout" {
