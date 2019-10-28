@@ -69,7 +69,7 @@ variable "dns_servers" {
 
 variable "docker_labels" {
   type        = map(string)
-  description = "The configuration options to send to the `docker_labels`"
+  description = "(Optional) The configuration options to send to the `docker_labels`"
   default     = null
 }
 
@@ -97,7 +97,7 @@ variable "firelens_configuration" {
     type    = string
     options = map(string)
   })
-  description = "The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more details, see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_FirelensConfiguration.html"
+  description = "(Optional) The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more details, see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_FirelensConfiguration.html"
   default     = null
 }
 
@@ -110,7 +110,7 @@ variable "healthcheck" {
     interval    = number
     startPeriod = number
   })
-  description = "A map containing command (string), timeout, interval (duration in seconds), retries (1-10, number of times to retry before marking container unhealthy), and startPeriod (0-300, optional grace period to wait, in seconds, before failed healthchecks count toward retries)"
+  description = "(Optional) A map containing command (string), timeout, interval (duration in seconds), retries (1-10, number of times to retry before marking container unhealthy), and startPeriod (0-300, optional grace period to wait, in seconds, before failed healthchecks count toward retries)"
   default     = null
 }
 
@@ -130,7 +130,7 @@ variable "log_configuration" {
       valueFrom = string
     }))
   })
-  description = "Log configuration options to send to a custom log driver for the container. For more details, see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html"
+  description = "(Optional) Log configuration options to send to a custom log driver for the container. For more details, see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html"
   default     = null
 }
 
