@@ -32,9 +32,9 @@ variable "container_name" {
 }
 
 variable "command" {
-  type        = list
+  type        = list(string)
   description = "(Optional) The command that is passed to the container"
-  default     = [""]
+  default     = null
 }
 
 variable "container_cpu" {
@@ -44,9 +44,9 @@ variable "container_cpu" {
 }
 
 variable "container_depends_on" {
-  type        = list
+  type        = list(string)
   description = "(Optional) The dependencies defined for container startup and shutdown. A container can contain multiple dependencies. When a dependency is defined for container startup, for container shutdown it is reversed"
-  default     = []
+  default     = null
 }
 
 variable "container_memory" {
@@ -62,9 +62,9 @@ variable "container_memory_reservation" {
 }
 
 variable "dns_servers" {
-  type        = list
-  description = "(Optional) Container DNS servers. This is a list of strings specifying the IP addresses of the DNS servers."
-  default     = []
+  type        = list(string)
+  description = "(Optional) Container DNS servers. This is a list of strings specifying the IP addresses of the DNS servers"
+  default     = null
 }
 
 variable "docker_labels" {
@@ -74,21 +74,24 @@ variable "docker_labels" {
 }
 
 variable "entrypoint" {
-  type        = list
+  type        = list(string)
   description = "(Optional) The entry point that is passed to the container"
-  default     = [""]
+  default     = null
 }
 
 variable "environment" {
-  type        = list
-  description = "(Optional) The environment variables to pass to the container. This is a list of maps. Each map should contain `name` and `value`"
-  default     = []
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  description = "(Optional) The environment variables to pass to the container. This is a list of maps"
+  default     = null
 }
 
 variable "essential" {
-  type        = string
+  type        = bool
   description = "(Optional) Determines whether all other containers in a task are stopped, if this container fails or stops for any reason. Due to how Terraform type casts booleans in json it is required to double quote this value"
-  default     = "true"
+  default     = true
 }
 
 # https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_FirelensConfiguration.html
@@ -115,9 +118,9 @@ variable "healthcheck" {
 }
 
 variable "links" {
-  type        = list
-  description = "(Optional) List of container names this container can communicate with without port mappings."
-  default     = []
+  type        = list(string)
+  description = "(Optional) List of container names this container can communicate with without port mappings"
+  default     = null
 }
 
 # https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html
@@ -135,9 +138,12 @@ variable "log_configuration" {
 }
 
 variable "mount_points" {
-  type        = list
+  type = list(object({
+    containerPath = string
+    sourceVolume  = string
+  }))
   description = "(Optional) Container mount points. This is a list of maps, where each map should contain a `containerPath` and `sourceVolume`"
-  default     = []
+  default     = null
 }
 
 locals {
@@ -149,11 +155,11 @@ locals {
     },
   ]
 }
-	
+
 variable "readonly_root_filesystem" {
-  type        = string
+  type        = bool
   description = "(Optional) Determines whether a container is given read-only access to its root filesystem. Due to how Terraform type casts booleans in json it is required to double quote this value"
-  default     = "false"
+  default     = false
 }
 
 variable "repository_credentials" {
@@ -163,9 +169,12 @@ variable "repository_credentials" {
 }
 
 variable "secrets" {
-  type        = list
+  type = list(object({
+    name      = string
+    valueFrom = string
+  }))
   description = "(Optional) The secrets to pass to the container. This is a list of maps"
-  default     = []
+  default     = null
 }
 
 variable "start_timeout" {
@@ -180,31 +189,40 @@ variable "system_controls" {
 }
 
 variable "stop_timeout" {
+  type        = number
   description = "(Optional) Timeout in seconds between sending SIGTERM and SIGKILL to container"
   default     = 30
 }
 
 variable "ulimits" {
-  type        = list
+  type = list(object({
+    name      = string
+    hardLimit = number
+    softLimit = number
+  }))
   description = "(Optional) Container ulimit settings. This is a list of maps, where each map should contain \"name\", \"hardLimit\" and \"softLimit\""
-  default     = []
+  default     = null
 }
 
 variable "user" {
+  type        = string
   description = "(Optional) The user to run as inside the container. Can be any of these formats: user, user:group, uid, uid:gid, user:gid, uid:group"
-  default     = ""
+  default     = null
 }
 
 variable "volumes_from" {
-  type        = list
-  description = "(Optional) A list of VolumesFrom maps which contain \"sourceContainer\" (name of the container that has the volumes to mount) and \"readOnly\" (whether the container can write to the volume)."
-  default     = []
+  type = list(object({
+    sourceContainer = string
+    readOnly        = bool
+  }))
+  description = "(Optional) A list of VolumesFrom maps which contain \"sourceContainer\" (name of the container that has the volumes to mount) and \"readOnly\" (whether the container can write to the volume)"
+  default     = null
 }
 
 variable "working_directory" {
   type        = string
   description = "(Optional) The working directory to run commands inside the container"
-  default     = ""
+  default     = null
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

@@ -17,7 +17,7 @@ Check versions for this module on:
 
         module "td" {
             source          = "cn-terraform/ecs-fargate-task-definition/aws"
-            version         = "1.0.6"
+            version         = "1.0.7"
             name_preffix    = var.name_preffix
             profile         = var.profile
             region          = var.region
