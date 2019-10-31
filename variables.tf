@@ -157,9 +157,9 @@ variable "readonly_root_filesystem" {
 }
 
 variable "repository_credentials" {
-  type        = map
+  type        = map(string)
   description = "(Optional) Container repository credentials; required when using a private repo.  This map currently supports a single key; \"credentialsParameter\", which should be the ARN of a Secrets Manager's secret holding the credentials"
-  default     = {}
+  default     = null
 }
 
 variable "secrets" {
