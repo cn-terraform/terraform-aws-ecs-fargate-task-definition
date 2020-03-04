@@ -31,7 +31,7 @@ module "container_definition" {
   container_image              = var.container_image
   container_memory             = var.container_memory
   container_memory_reservation = var.container_memory_reservation
-  port_mappings                = local.port_mappings
+  port_mappings                = var.port_mappings
   healthcheck                  = var.healthcheck
   container_cpu                = var.container_cpu
   essential                    = var.essential

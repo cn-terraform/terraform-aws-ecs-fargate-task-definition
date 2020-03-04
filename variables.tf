@@ -146,14 +146,14 @@ variable "mount_points" {
   default     = null
 }
 
-locals {
-  port_mappings = [
-    {
-      "containerPort" = var.container_port
-      "hostPort"      = var.container_port
-      "protocol"      = "HTTP"
-    },
-  ]
+variable "port_mappings" {
+    type = list(object({
+        containerPort = number
+        hostPort      = number
+        protocol      = string
+    }))
+    description = "(Required) Container port mappings. This is a list of maps, where each map should contain a `containerPort`, `hostPort` and `protocol`"
+    default     = null
 }
 
 variable "readonly_root_filesystem" {
