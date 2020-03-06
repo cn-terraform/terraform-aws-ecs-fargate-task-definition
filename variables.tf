@@ -156,6 +156,11 @@ variable "port_mappings" {
     default     = null
 }
 
+variable "task_role_arn" {
+    description = "Role ARN for task"
+    type = string
+}
+
 variable "readonly_root_filesystem" {
   type        = bool
   description = "(Optional) Determines whether a container is given read-only access to its root filesystem. Due to how Terraform type casts booleans in json it is required to double quote this value"
