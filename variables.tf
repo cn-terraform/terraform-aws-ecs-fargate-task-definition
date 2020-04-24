@@ -19,10 +19,6 @@ variable "region" {
 # ---------------------------------------------------------------------------------------------------------------------
 # AWS ECS Container Definition Variables
 # ---------------------------------------------------------------------------------------------------------------------
-variable "container_port" {
-  description = "Port on which the container is listening"
-}
-
 variable "container_image" {
   description = "The image used to start the container."
 }

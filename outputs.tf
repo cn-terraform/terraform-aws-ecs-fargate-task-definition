@@ -43,10 +43,6 @@ output "aws_ecs_task_definition_td_revision" {
   description = "The revision of the task in a particular family."
   value       = aws_ecs_task_definition.td.revision
 }
-output "container_port" {
-  description = "Port on which the container is listening"
-  value       = var.container_port
-}
 output "container_name" {
   description = "Name of the container"
   value       = var.container_name

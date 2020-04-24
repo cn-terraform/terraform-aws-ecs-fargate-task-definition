@@ -111,6 +111,5 @@ resource "aws_ecs_task_definition" "td" {
   }
 }
 
-
-
+# TODO - Add this missing parameter
 # inference_accelerator - (Optional) Configuration block(s) with Inference Accelerators settings. Detailed below.
