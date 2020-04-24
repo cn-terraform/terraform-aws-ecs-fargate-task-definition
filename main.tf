@@ -25,13 +25,13 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach
 # Container Definition
 module "container_definition" {
   source  = "cloudposse/ecs-container-definition/aws"
-  version = "0.21.0"
+  version = "0.23.0"
 
   container_name               = var.container_name
   container_image              = var.container_image
   container_memory             = var.container_memory
   container_memory_reservation = var.container_memory_reservation
-  port_mappings                = local.port_mappings
+  port_mappings                = var.port_mappings
   healthcheck                  = var.healthcheck
   container_cpu                = var.container_cpu
   essential                    = var.essential
@@ -41,6 +41,9 @@ module "container_definition" {
   environment                  = var.environment
   secrets                      = var.secrets
   readonly_root_filesystem     = var.readonly_root_filesystem
+  linux_parameters             = var.linux_parameters
+  log_configuration            = var.log_configuration
+  firelens_configuration       = var.firelens_configuration
   mount_points                 = var.mount_points
   dns_servers                  = var.dns_servers
   ulimits                      = var.ulimits
@@ -53,8 +56,6 @@ module "container_definition" {
   start_timeout                = var.start_timeout
   stop_timeout                 = var.stop_timeout
   system_controls              = var.system_controls
-  firelens_configuration       = var.firelens_configuration
-  log_configuration            = var.log_configuration
 }
 
 # Task Definition
@@ -82,5 +83,34 @@ resource "aws_ecs_task_definition" "td" {
       type           = lookup(proxy_configuration.value, "type", null)
     }
   }
+  dynamic "volume" {
+    for_each = var.volumes
+    content {
+      host_path = lookup(volume.value, "host_path", null)
+      name      = volume.value.name
+
+      dynamic "docker_volume_configuration" {
+        for_each = lookup(volume.value, "docker_volume_configuration", [])
+        content {
+          autoprovision = lookup(docker_volume_configuration.value, "autoprovision", null)
+          driver        = lookup(docker_volume_configuration.value, "driver", null)
+          driver_opts   = lookup(docker_volume_configuration.value, "driver_opts", null)
+          labels        = lookup(docker_volume_configuration.value, "labels", null)
+          scope         = lookup(docker_volume_configuration.value, "scope", null)
+        }
+      }
+
+      dynamic "efs_volume_configuration" {
+        for_each = lookup(volume.value, "efs_volume_configuration", [])
+        content {
+          file_system_id = lookup(efs_volume_configuration.value, "file_system_id", null)
+          root_directory = lookup(efs_volume_configuration.value, "root_directory", null)
+        }
+      }
+    }
+  }
 }
 
+
+
+# inference_accelerator - (Optional) Configuration block(s) with Inference Accelerators settings. Detailed below.
