@@ -54,7 +54,7 @@ module "container_definition" {
 resource "aws_ecs_task_definition" "td" {
   family                = "${var.name_preffix}-td"
   container_definitions = "[ ${module.container_definition.json_map} ]"
-  task_role_arn         = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn         = var.task_role_arn == null ? aws_iam_role.ecs_task_execution_role.arn : var.task_role_arn
   execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn
   network_mode          = "awsvpc"
   dynamic "placement_constraints" {

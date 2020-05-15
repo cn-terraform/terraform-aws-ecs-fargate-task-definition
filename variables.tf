@@ -177,6 +177,12 @@ variable "port_mappings" {
   ]
 }
 
+variable "task_role_arn" {
+  description = "(Optional) The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services. If not specified, `aws_iam_role.ecs_task_execution_role.arn` is used"
+  type        = string
+  default     = null
+}
+
 variable "readonly_root_filesystem" {
   description = "(Optional) Determines whether a container is given read-only access to its root filesystem. Due to how Terraform type casts booleans in json it is required to double quote this value"
   type        = bool
