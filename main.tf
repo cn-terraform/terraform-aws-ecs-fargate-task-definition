@@ -1,14 +1,6 @@
-# ---------------------------------------------------------------------------------------------------------------------
-# PROVIDER
-# ---------------------------------------------------------------------------------------------------------------------
-provider "aws" {
-  profile = var.profile
-  region  = var.region
-}
-
-# ---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # AWS ECS Task Execution Role
-# ---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 resource "aws_iam_role" "ecs_task_execution_role" {
   name               = "${var.name_preffix}-ecs-task-execution-role"
   assume_role_policy = file("${path.module}/files/iam/ecs_task_execution_iam_role.json")
@@ -19,13 +11,13 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# ---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # ECS Task Definition
-# ---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # Container Definition
 module "container_definition" {
   source  = "cloudposse/ecs-container-definition/aws"
-  version = "0.21.0"
+  version = "0.23.0"
 
   container_name               = var.container_name
   container_image              = var.container_image
@@ -41,6 +33,9 @@ module "container_definition" {
   environment                  = var.environment
   secrets                      = var.secrets
   readonly_root_filesystem     = var.readonly_root_filesystem
+  linux_parameters             = var.linux_parameters
+  log_configuration            = var.log_configuration
+  firelens_configuration       = var.firelens_configuration
   mount_points                 = var.mount_points
   dns_servers                  = var.dns_servers
   ulimits                      = var.ulimits
@@ -53,8 +48,6 @@ module "container_definition" {
   start_timeout                = var.start_timeout
   stop_timeout                 = var.stop_timeout
   system_controls              = var.system_controls
-  firelens_configuration       = var.firelens_configuration
-  log_configuration            = var.log_configuration
 }
 
 # Task Definition
@@ -82,5 +75,34 @@ resource "aws_ecs_task_definition" "td" {
       type           = lookup(proxy_configuration.value, "type", null)
     }
   }
+  dynamic "volume" {
+    for_each = var.volumes
+    content {
+      name      = volume.value.name
+
+      host_path = lookup(volume.value, "host_path", null)
+
+      dynamic "docker_volume_configuration" {
+        for_each = lookup(volume.value, "docker_volume_configuration", [])
+        content {
+          autoprovision = lookup(docker_volume_configuration.value, "autoprovision", null)
+          driver        = lookup(docker_volume_configuration.value, "driver", null)
+          driver_opts   = lookup(docker_volume_configuration.value, "driver_opts", null)
+          labels        = lookup(docker_volume_configuration.value, "labels", null)
+          scope         = lookup(docker_volume_configuration.value, "scope", null)
+        }
+      }
+
+      dynamic "efs_volume_configuration" {
+        for_each = lookup(volume.value, "efs_volume_configuration", [])
+        content {
+          file_system_id = lookup(efs_volume_configuration.value, "file_system_id", null)
+          root_directory = lookup(efs_volume_configuration.value, "root_directory", null)
+        }
+      }
+    }
+  }
 }
 
+# TODO - Add this missing parameter
+# inference_accelerator - (Optional) Configuration block(s) with Inference Accelerators settings. Detailed below.
