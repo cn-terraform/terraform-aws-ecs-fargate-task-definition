@@ -17,7 +17,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach
 # Container Definition
 module "container_definition" {
   source  = "cloudposse/ecs-container-definition/aws"
-  version = "0.23.0"
+  version = "0.41.0"
 
   container_name               = var.container_name
   container_image              = var.container_image
@@ -53,7 +53,7 @@ module "container_definition" {
 # Task Definition
 resource "aws_ecs_task_definition" "td" {
   family                = "${var.name_preffix}-td"
-  container_definitions = "[ ${module.container_definition.json_map} ]"
+  container_definitions = "[ ${module.container_definition.json_map_object} ]"
   task_role_arn         = var.task_role_arn == null ? aws_iam_role.ecs_task_execution_role.arn : var.task_role_arn
   execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn
   network_mode          = "awsvpc"
