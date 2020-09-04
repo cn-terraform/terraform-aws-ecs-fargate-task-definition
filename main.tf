@@ -78,7 +78,7 @@ resource "aws_ecs_task_definition" "td" {
   dynamic "volume" {
     for_each = var.volumes
     content {
-      name      = volume.value.name
+      name = volume.value.name
 
       host_path = lookup(volume.value, "host_path", null)
 
