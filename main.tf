@@ -2,7 +2,7 @@
 # AWS ECS Task Execution Role
 #------------------------------------------------------------------------------
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "${var.name_preffix}-ecs-task-execution-role"
+  name               = "${var.name_prefix}-ecs-task-execution-role"
   assume_role_policy = file("${path.module}/files/iam/ecs_task_execution_iam_role.json")
 }
 
@@ -52,7 +52,7 @@ module "container_definition" {
 
 # Task Definition
 resource "aws_ecs_task_definition" "td" {
-  family                = "${var.name_preffix}-td"
+  family                = "${var.name_prefix}-td"
   container_definitions = "[ ${module.container_definition.json_map_object} ]"
   task_role_arn         = var.task_role_arn == null ? aws_iam_role.ecs_task_execution_role.arn : var.task_role_arn
   execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn

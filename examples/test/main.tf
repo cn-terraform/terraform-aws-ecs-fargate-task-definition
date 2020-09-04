@@ -4,7 +4,7 @@ provider "aws" {
 
 module "td" {
   source          = "../../"
-  name_preffix    = "test"
+  name_prefix     = "test"
   container_image = "ubuntu"
   container_name  = "test"
 }
