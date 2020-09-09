@@ -73,7 +73,7 @@ variable "environment" {
     name  = string
     value = string
   }))
-  default = null
+  default = []
 }
 
 variable "essential" {
@@ -158,7 +158,7 @@ variable "mount_points" {
     containerPath = string
     sourceVolume  = string
   }))
-  default = null
+  default = []
 }
 
 variable "port_mappings" {
