@@ -2,7 +2,7 @@
 
 This Terraform module creates an AWS ECS Fargate task definition.
 
-[![CircleCI](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-task-definition/tree/master.svg?style=svg)](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-task-definition/tree/master)
+[![CircleCI](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-task-definition/tree/main.svg?style=svg)](https://circleci.com/gh/cn-terraform/terraform-aws-ecs-fargate-task-definition/tree/main)
 [![](https://img.shields.io/github/license/cn-terraform/terraform-aws-ecs-fargate-task-definition)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition)
 [![](https://img.shields.io/github/issues/cn-terraform/terraform-aws-ecs-fargate-task-definition)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition)
 [![](https://img.shields.io/github/issues-closed/cn-terraform/terraform-aws-ecs-fargate-task-definition)](https://github.com/cn-terraform/terraform-aws-ecs-fargate-task-definition)
