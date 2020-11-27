@@ -8,8 +8,6 @@ variable "name_prefix" {
 #------------------------------------------------------------------------------
 # AWS ECS Container Definition Variables for Cloudposse module
 #------------------------------------------------------------------------------
-
-
 variable "container_name" {
   type        = string
   description = "The name of the container. Up to 255 characters ([a-z], [A-Z], [0-9], -, _ allowed)"
