@@ -11,6 +11,20 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+resource "aws_iam_policy" "ecs_task_execution_role_custom_policy" {
+  count = length(var.ecs_task_execution_role_custom_policy) > 0 ? 1 : 0
+  name        = "${var.name_prefix}-ecs-task-execution-role-custom-policy"
+  description = "A custom policy for ${var.name_prefix}-ecs-task-execution-role IAM Role"
+
+  policy = var.ecs_task_execution_role_custom_policy
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_custom_policy" {
+  count = length(var.ecs_task_execution_role_custom_policy) > 0 ? 1 : 0
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.ecs_task_execution_role_custom_policy[*].arn
+}
+
 #------------------------------------------------------------------------------
 # ECS Task Definition
 #------------------------------------------------------------------------------
