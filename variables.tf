@@ -322,6 +322,12 @@ variable "task_role_arn" {
   default     = null
 }
 
+variable "ecs_task_execution_role_custom_policy" {
+  description = "(Optional) A custom policy to attach to the ECS task execution role. For example for reading secrets from AWS Systems Manager Parameter Store or Secrets Manager"
+  type = string
+  default = null
+}
+
 variable "placement_constraints" {
   description = "(Optional) A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. This is a list of maps, where each map should contain \"type\" and \"expression\""
   type        = list
@@ -353,3 +359,4 @@ variable "volumes" {
   }))
   default = []
 }
+
