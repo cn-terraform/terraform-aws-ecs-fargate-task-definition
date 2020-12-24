@@ -12,17 +12,16 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach
 }
 
 resource "aws_iam_policy" "ecs_task_execution_role_custom_policy" {
-  count = length(var.ecs_task_execution_role_custom_policy) > 0 ? 1 : 0
+  for_each    = toset(var.ecs_task_execution_role_custom_policies)
   name        = "${var.name_prefix}-ecs-task-execution-role-custom-policy"
   description = "A custom policy for ${var.name_prefix}-ecs-task-execution-role IAM Role"
-
-  policy = var.ecs_task_execution_role_custom_policy
+  policy      = each.value
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_custom_policy" {
-  count = length(var.ecs_task_execution_role_custom_policy) > 0 ? 1 : 0
+  for_each   = aws_iam_policy.ecs_task_execution_role_custom_policy
   role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = aws_iam_policy.ecs_task_execution_role_custom_policy[*].arn
+  policy_arn = each.value.arn
 }
 
 #------------------------------------------------------------------------------
