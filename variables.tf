@@ -31,7 +31,7 @@ variable "container_memory_reservation" {
 }
 
 variable "container_definition" {
-  type        = map
+  type        = map(any)
   description = "Container definition overrides which allows for extra keys or overriding existing keys."
   default     = {}
 }
@@ -189,7 +189,7 @@ variable "firelens_configuration" {
 }
 
 variable "mount_points" {
-  type = list
+  type = list(any)
 
   description = "Container mount points. This is a list of maps, where each map should contain a `containerPath` and `sourceVolume`. The `readOnly` key is optional."
   default     = []
@@ -330,13 +330,13 @@ variable "ecs_task_execution_role_custom_policies" {
 
 variable "placement_constraints" {
   description = "(Optional) A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. This is a list of maps, where each map should contain \"type\" and \"expression\""
-  type        = list
+  type        = list(any)
   default     = []
 }
 
 variable "proxy_configuration" {
   description = "(Optional) The proxy configuration details for the App Mesh proxy. This is a list of maps, where each map should contain \"container_name\", \"properties\" and \"type\""
-  type        = list
+  type        = list(any)
   default     = []
 }
 
