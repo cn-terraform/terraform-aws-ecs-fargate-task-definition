@@ -316,6 +316,12 @@ variable "docker_security_options" {
 #------------------------------------------------------------------------------
 # AWS ECS Task Definition Variables
 #------------------------------------------------------------------------------
+variable "permissions_boundary" {
+  description = "(Optional) The ARN of the policy that is used to set the permissions boundary for the `ecs_task_execution_role` role."
+  type        = string
+  default     = null
+}
+
 variable "task_role_arn" {
   description = "(Optional) The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services. If not specified, `aws_iam_role.ecs_task_execution_role.arn` is used"
   type        = string

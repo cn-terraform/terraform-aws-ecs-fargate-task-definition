@@ -2,8 +2,9 @@
 # AWS ECS Task Execution Role
 #------------------------------------------------------------------------------
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "${var.name_prefix}-ecs-task-execution-role"
-  assume_role_policy = file("${path.module}/files/iam/ecs_task_execution_iam_role.json")
+  name                 = "${var.name_prefix}-ecs-task-execution-role"
+  assume_role_policy   = file("${path.module}/files/iam/ecs_task_execution_iam_role.json")
+  permissions_boundary = var.permissions_boundary
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach" {
