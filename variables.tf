@@ -316,6 +316,12 @@ variable "docker_security_options" {
 #------------------------------------------------------------------------------
 # AWS ECS Task Definition Variables
 #------------------------------------------------------------------------------
+variable "iam_partition" {
+  description = "IAM partition to use when referencing standard policies. GovCloud and some other regions use different partitions"
+  type        = string
+  default     = "aws"
+}
+
 variable "permissions_boundary" {
   description = "(Optional) The ARN of the policy that is used to set the permissions boundary for the `ecs_task_execution_role` role."
   type        = string
