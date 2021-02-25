@@ -369,7 +369,7 @@ variable "volumes" {
       root_directory          = string
       transit_encryption      = string
       transit_encryption_port = string
-      authorization_config    = list(object({
+      authorization_config = list(object({
         access_point_id = string
         iam             = string
       }))
