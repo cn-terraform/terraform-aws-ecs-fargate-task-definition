@@ -127,7 +127,7 @@ variable "environment_files" {
     type  = string
   }))
   description = "One or more files containing the environment variables to pass to the container. This maps to the --env-file option to docker run. The file must be hosted in Amazon S3. This option is only available to tasks using the EC2 launch type. This is a list of maps"
-  default     = null
+  default     = []
 }
 
 variable "secrets" {
@@ -136,7 +136,7 @@ variable "secrets" {
     valueFrom = string
   }))
   description = "The secrets to pass to the container. This is a list of maps"
-  default     = null
+  default     = []
 }
 
 variable "readonly_root_filesystem" {
@@ -198,13 +198,13 @@ variable "mount_points" {
 variable "dns_servers" {
   type        = list(string)
   description = "Container DNS servers. This is a list of strings specifying the IP addresses of the DNS servers"
-  default     = null
+  default     = []
 }
 
 variable "dns_search_domains" {
   type        = list(string)
   description = "Container DNS search domains. A list of DNS search domains that are presented to the container"
-  default     = null
+  default     = []
 }
 
 variable "ulimits" {
@@ -235,7 +235,7 @@ variable "volumes_from" {
 variable "links" {
   type        = list(string)
   description = "List of container names this container can communicate with without port mappings"
-  default     = null
+  default     = []
 }
 
 variable "user" {
@@ -250,7 +250,7 @@ variable "container_depends_on" {
     condition     = string
   }))
   description = "The dependencies defined for container startup and shutdown. A container can contain multiple dependencies. When a dependency is defined for container startup, for container shutdown it is reversed. The condition can be one of START, COMPLETE, SUCCESS or HEALTHY"
-  default     = null
+  default     = []
 }
 
 variable "docker_labels" {
@@ -280,7 +280,7 @@ variable "privileged" {
 variable "system_controls" {
   type        = list(map(string))
   description = "A list of namespaced kernel parameters to set in the container, mapping to the --sysctl option to docker run. This is a list of maps: { namespace = \"\", value = \"\"}"
-  default     = null
+  default     = []
 }
 
 variable "hostname" {
@@ -310,7 +310,7 @@ variable "pseudo_terminal" {
 variable "docker_security_options" {
   type        = list(string)
   description = "A list of strings to provide custom labels for SELinux and AppArmor multi-level security systems."
-  default     = null
+  default     = []
 }
 
 #------------------------------------------------------------------------------
