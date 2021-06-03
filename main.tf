@@ -5,6 +5,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
   name                 = "${var.name_prefix}-ecs-task-execution-role"
   assume_role_policy   = file("${path.module}/files/iam/ecs_task_execution_iam_role.json")
   permissions_boundary = var.permissions_boundary
+  tags                 = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach" {
@@ -17,6 +18,7 @@ resource "aws_iam_policy" "ecs_task_execution_role_custom_policy" {
   name        = "${var.name_prefix}-ecs-task-execution-role-custom-policy"
   description = "A custom policy for ${var.name_prefix}-ecs-task-execution-role IAM Role"
   policy      = each.value
+  tags        = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_custom_policy" {
@@ -136,6 +138,8 @@ resource "aws_ecs_task_definition" "td" {
       }
     }
   }
+
+  tags = var.tags
 }
 
 # TODO - Add this missing parameter
