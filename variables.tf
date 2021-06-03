@@ -5,6 +5,12 @@ variable "name_prefix" {
   description = "Name prefix for resources on AWS"
 }
 
+variable "tags" {
+  type        = map(string)
+  default     = {}
+  description = "Resource tags"
+}
+
 #------------------------------------------------------------------------------
 # AWS ECS Container Definition Variables for Cloudposse module
 #------------------------------------------------------------------------------
