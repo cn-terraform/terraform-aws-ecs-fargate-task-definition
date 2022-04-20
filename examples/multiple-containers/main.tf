@@ -13,10 +13,8 @@ module "container-definition-2" {
 }
 
 module "td" {
-  source          = "../../"
-  name_prefix     = "multiple-containers"
-  container_name  = null
-  container_image = null
+  source      = "../../"
+  name_prefix = "multiple-containers"
 
   containers = [
     module.container-definition-1.json_map_object,

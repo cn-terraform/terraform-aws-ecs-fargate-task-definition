@@ -16,11 +16,13 @@ variable "tags" {
 #------------------------------------------------------------------------------
 variable "container_name" {
   type        = string
+  default     = null
   description = "The name of the container. Up to 255 characters ([a-z], [A-Z], [0-9], -, _ allowed)"
 }
 
 variable "container_image" {
   type        = string
+  default     = null
   description = "The image used to start the container. Images in the Docker Hub registry available by default"
 }
 
