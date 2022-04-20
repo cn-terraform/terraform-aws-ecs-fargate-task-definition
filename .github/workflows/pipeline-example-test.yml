@@ -1,4 +1,4 @@
-name: Terraform
+name: Example-Test
 on: [push]
 jobs:
   check-format:
