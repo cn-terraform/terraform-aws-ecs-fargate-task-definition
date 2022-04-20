@@ -16,11 +16,13 @@ variable "tags" {
 #------------------------------------------------------------------------------
 variable "container_name" {
   type        = string
+  default     = null
   description = "The name of the container. Up to 255 characters ([a-z], [A-Z], [0-9], -, _ allowed)"
 }
 
 variable "container_image" {
   type        = string
+  default     = null
   description = "The image used to start the container. Images in the Docker Hub registry available by default"
 }
 
@@ -40,6 +42,12 @@ variable "container_definition" {
   type        = map(any)
   description = "Container definition overrides which allows for extra keys or overriding existing keys."
   default     = {}
+}
+
+variable "containers" {
+  type        = list(any)
+  description = "Container definitions to use for the task. If this is used, all other container options will be ignored."
+  default     = []
 }
 
 variable "port_mappings" {
