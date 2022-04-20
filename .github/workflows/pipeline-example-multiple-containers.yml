@@ -1,0 +1,50 @@
+name: Example-Multiple-Containers
+on: [push]
+jobs:
+  check-format:
+    runs-on: ubuntu-latest
+    container: hashicorp/terraform
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - run: terraform fmt -check -recursive -diff
+
+  validate:
+    runs-on: ubuntu-latest
+    container: hashicorp/terraform
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Terraform Init
+        run: terraform init
+        working-directory: examples/multiple-containers
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: examples/multiple-containers
+
+  mock-plan:
+    runs-on: ubuntu-latest
+    container: hashicorp/terraform
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Terraform Init
+        run: terraform init
+        working-directory: examples/multiple-containers
+      - name: Terraform Plan (Mock)
+        run: terraform plan
+        working-directory: examples/multiple-containers
+
+  infracost:
+    runs-on: ubuntu-latest
+    name: Show infracost diff
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Run infracost diff
+        uses: infracost/infracost-gh-action@master
+        env:
+          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          path: examples/multiple-containers
