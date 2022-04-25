@@ -14,8 +14,8 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach
 }
 
 resource "aws_iam_policy" "ecs_task_execution_role_custom_policy" {
-  for_each    = toset(var.ecs_task_execution_role_custom_policies)
-  name        = "${var.name_prefix}-ecs-task-execution-role-custom-policy"
+  for_each    = {for s in var.ecs_task_execution_role_custom_policies: index(var.ecs_task_execution_role_custom_policies, s) => s}
+  name        = "${var.name_prefix}-ecs-task-execution-role-custom-policy-${each.key}"
   description = "A custom policy for ${var.name_prefix}-ecs-task-execution-role IAM Role"
   policy      = each.value
   tags        = var.tags
