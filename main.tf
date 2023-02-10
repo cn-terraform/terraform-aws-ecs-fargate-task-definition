@@ -35,55 +35,68 @@ module "container_definition" {
   source  = "cloudposse/ecs-container-definition/aws"
   version = "0.58.1"
 
-  container_name               = var.container_name
+  command                      = var.command
+  container_cpu                = var.container_cpu
+  container_definition         = var.container_definition
+  container_depends_on         = var.container_depends_on
   container_image              = var.container_image
   container_memory             = var.container_memory
   container_memory_reservation = var.container_memory_reservation
-  container_definition         = var.container_definition
-  port_mappings                = var.port_mappings
-  healthcheck                  = var.healthcheck
-  container_cpu                = var.container_cpu
-  essential                    = var.essential
+  container_name               = var.container_name
+  disable_networking           = var.disable_networking
+  dns_search_domains           = var.dns_search_domains
+  dns_servers                  = var.dns_servers
+  docker_labels                = var.docker_labels
+  docker_security_options      = var.docker_security_options
   entrypoint                   = var.entrypoint
-  command                      = var.command
-  working_directory            = var.working_directory
   environment                  = var.environment
-  extra_hosts                  = var.extra_hosts
-  map_environment              = var.map_environment
   environment_files            = var.environment_files
-  secrets                      = var.secrets
-  readonly_root_filesystem     = var.readonly_root_filesystem
+  essential                    = var.essential
+  extra_hosts                  = var.extra_hosts
+  firelens_configuration       = var.firelens_configuration
+  healthcheck                  = var.healthcheck
+  hostname                     = var.hostname
+  interactive                  = var.interactive
+  links                        = var.links
   linux_parameters             = var.linux_parameters
   log_configuration            = var.log_configuration
-  firelens_configuration       = var.firelens_configuration
+  map_environment              = var.map_environment
+  map_secrets                  = var.map_secrets
   mount_points                 = var.mount_points
-  dns_servers                  = var.dns_servers
-  dns_search_domains           = var.dns_search_domains
-  ulimits                      = var.ulimits
+  port_mappings                = var.port_mappings
+  privileged                   = var.privileged
+  pseudo_terminal              = var.pseudo_terminal
+  readonly_root_filesystem     = var.readonly_root_filesystem
   repository_credentials       = var.repository_credentials
-  volumes_from                 = var.volumes_from
-  links                        = var.links
-  user                         = var.user
-  container_depends_on         = var.container_depends_on
-  docker_labels                = var.docker_labels
+  resource_requirements        = var.resource_requirements
+  secrets                      = var.secrets
   start_timeout                = var.start_timeout
   stop_timeout                 = var.stop_timeout
-  privileged                   = var.privileged
   system_controls              = var.system_controls
-  hostname                     = var.hostname
-  disable_networking           = var.disable_networking
-  interactive                  = var.interactive
-  pseudo_terminal              = var.pseudo_terminal
-  docker_security_options      = var.docker_security_options
+  ulimits                      = var.ulimits
+  user                         = var.user
+  volumes_from                 = var.volumes_from
+  working_directory            = var.working_directory
 }
 
 # Task Definition
 resource "aws_ecs_task_definition" "td" {
-  family                = "${var.name_prefix}-td"
   container_definitions = length(var.containers) == 0 ? "[${module.container_definition.json_map_encoded}]" : jsonencode(var.containers)
-  task_role_arn         = var.task_role_arn == null ? aws_iam_role.ecs_task_execution_role.arn : var.task_role_arn
-  execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn
-  network_mode          = "awsvpc"
+  family                = var.name_prefix
+
+  cpu                = var.container_cpu
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+  ipc_mode           = var.ipc_mode
+  memory             = var.container_memory
+  network_mode       = "awsvpc" # awsvpc required for Fargate tasks
+
+  runtime_platform {
+    cpu_architecture        = var.runtime_platform_cpu_architecture
+    operating_system_family = var.runtime_platform_operating_system_family
+  }
+
+  pid_mode = var.pid_mode
+
   dynamic "placement_constraints" {
     for_each = var.placement_constraints
     content {
@@ -91,9 +104,7 @@ resource "aws_ecs_task_definition" "td" {
       type       = placement_constraints.value.type
     }
   }
-  cpu                      = var.container_cpu
-  memory                   = var.container_memory
-  requires_compatibilities = ["FARGATE"]
+
   dynamic "proxy_configuration" {
     for_each = var.proxy_configuration
     content {
@@ -102,12 +113,18 @@ resource "aws_ecs_task_definition" "td" {
       type           = lookup(proxy_configuration.value, "type", null)
     }
   }
+
   dynamic "ephemeral_storage" {
     for_each = var.ephemeral_storage_size == 0 ? [] : [var.ephemeral_storage_size]
     content {
       size_in_gib = var.ephemeral_storage_size
     }
   }
+
+  requires_compatibilities = ["FARGATE"]
+  skip_destroy             = var.skip_destroy
+  task_role_arn            = var.task_role_arn == null ? aws_iam_role.ecs_task_execution_role.arn : var.task_role_arn
+
   dynamic "volume" {
     for_each = var.volumes
     content {
