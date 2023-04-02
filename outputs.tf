@@ -3,32 +3,32 @@
 #------------------------------------------------------------------------------
 output "aws_iam_role_ecs_task_execution_role_arn" {
   description = "The Amazon Resource Name (ARN) specifying the role."
-  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[*].arn : var.execution_role_arn
+  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].arn : var.execution_role_arn
 }
 
 output "aws_iam_role_ecs_task_execution_role_create_date" {
   description = "The creation date of the IAM role."
-  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[*].create_date : null
+  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].create_date : null
 }
 
 output "aws_iam_role_ecs_task_execution_role_description" {
   description = "The description of the role."
-  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[*].description : null
+  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].description : null
 }
 
 output "aws_iam_role_ecs_task_execution_role_id" {
   description = "The ID of the role."
-  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[*].id : null
+  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].id : null
 }
 
 output "aws_iam_role_ecs_task_execution_role_name" {
   description = "The name of the role."
-  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[*].name : null
+  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].name : null
 }
 
 output "aws_iam_role_ecs_task_execution_role_unique_id" {
   description = "The stable and unique string identifying the role."
-  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[*].unique_id : null
+  value       = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].unique_id : null
 }
 
 #------------------------------------------------------------------------------

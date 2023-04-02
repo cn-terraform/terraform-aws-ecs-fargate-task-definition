@@ -11,7 +11,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_attach" {
   count      = var.execution_role_arn == null ? 1 : 0
-  role       = aws_iam_role.ecs_task_execution_role[*].name
+  role       = aws_iam_role.ecs_task_execution_role[0].name
   policy_arn = "arn:${var.iam_partition}:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
@@ -25,7 +25,7 @@ resource "aws_iam_policy" "ecs_task_execution_role_custom_policy" {
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_custom_policy" {
   count      = var.execution_role_arn == null ? length(var.ecs_task_execution_role_custom_policies) : 0
-  role       = aws_iam_role.ecs_task_execution_role[*].name
+  role       = aws_iam_role.ecs_task_execution_role[0].name
   policy_arn = aws_iam_policy.ecs_task_execution_role_custom_policy[count.index].arn
 }
 
@@ -87,8 +87,8 @@ resource "aws_ecs_task_definition" "td" {
   family                = var.name_prefix
 
   cpu                = var.container_cpu
-  task_role_arn      = var.task_role_arn == null ? aws_iam_role.ecs_task_execution_role[*].arn : var.task_role_arn
-  execution_role_arn = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[*].arn : var.execution_role_arn
+  task_role_arn      = var.task_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].arn : var.task_role_arn
+  execution_role_arn = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].arn : var.execution_role_arn
   ipc_mode           = var.ipc_mode
   memory             = var.container_memory
   network_mode       = "awsvpc" # awsvpc required for Fargate tasks
