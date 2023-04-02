@@ -1,7 +1,21 @@
+fail_fast: true
+
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.71.0
+    rev: v1.77.1 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
     hooks:
-      - id: terraform_docs
       - id: terraform_fmt
+      - id: terraform_docs
+        args: ["--args=--lockfile=false"]
       - id: terraform_validate
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0 # Get the latest from: https://github.com/pre-commit/pre-commit-hooks/releases
+    hooks:
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: detect-private-key
+      - id: check-yaml
+        files: ^(.github/workflows).*$

@@ -433,7 +433,13 @@ variable "skip_destroy" {
 }
 
 variable "task_role_arn" {
-  description = "(Optional) The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services. If not specified, `aws_iam_role.ecs_task_execution_role.arn` is used"
+  description = "(Optional) The ARN of IAM role that grants permissions to the actual application once the container is started (e.g access an S3 bucket or DynamoDB database). If not specified, `aws_iam_role.ecs_task_execution_role.arn` is used"
+  type        = string
+  default     = null
+}
+
+variable "execution_role_arn" {
+  description = "(Optional) The ARN of IAM role that grants permissions to start the containers defined in a task (e.g populate environment variables from AWS Secrets Manager). If not specified, `aws_iam_role.ecs_task_execution_role.arn` is used"
   type        = string
   default     = null
 }
