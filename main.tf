@@ -33,7 +33,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_custom_policy
 # Container Definition
 module "container_definition" {
   source  = "cloudposse/ecs-container-definition/aws"
-  version = "0.58.2"
+  version = "0.58.3"
 
   command                      = var.command
   container_cpu                = var.container_cpu
