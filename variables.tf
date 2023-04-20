@@ -340,7 +340,7 @@ variable "working_directory" {
 # AWS ECS Task Definition Variables
 #------------------------------------------------------------------------------
 variable "containers" {
-  type        = list(any)
+  type        = any
   description = "Container definitions to use for the task. If this is used, all other container options will be ignored."
   default     = []
 }
