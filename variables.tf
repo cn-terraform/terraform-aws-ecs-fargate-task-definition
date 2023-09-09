@@ -27,7 +27,7 @@ variable "container_cpu" {
   default     = 1024 # 1 vCPU
 }
 
-variable "container_definition" {
+variable "container_definition_overrides" {
   type        = map(any)
   description = "Container definition overrides which allows for extra keys or overriding existing keys."
   default     = {}
@@ -339,10 +339,10 @@ variable "working_directory" {
 #------------------------------------------------------------------------------
 # AWS ECS Task Definition Variables
 #------------------------------------------------------------------------------
-variable "containers" {
+variable "additional_containers" {
+  description = "Additional container definitions (sidecars) to use for the task."
+  default     = [] #Use json_map_object from outputs of cloudposse/ecs-container-definition/aws
   type        = any
-  description = "Container definitions to use for the task. If this is used, all other container options will be ignored."
-  default     = []
 }
 
 variable "ecs_task_execution_role_custom_policies" {

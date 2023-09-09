@@ -16,7 +16,7 @@ module "td" {
   source      = "../../"
   name_prefix = "multiple-containers"
 
-  containers = [
+  additional_containers = [
     module.container-definition-1.json_map_object,
     module.container-definition-2.json_map_object,
   ]
