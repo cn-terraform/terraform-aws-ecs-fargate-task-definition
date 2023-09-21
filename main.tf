@@ -39,7 +39,7 @@ module "container_definition" {
 
   command                      = var.command
   container_cpu                = var.container_cpu
-  container_definition         = var.container_definition
+  container_definition         = var.container_definition_overrides
   container_depends_on         = var.container_depends_on
   container_image              = var.container_image
   container_memory             = var.container_memory
@@ -83,15 +83,14 @@ module "container_definition" {
 
 # Task Definition
 resource "aws_ecs_task_definition" "td" {
-  container_definitions = length(var.containers) == 0 ? "[${module.container_definition.json_map_encoded}]" : jsonencode(var.containers)
-  family                = var.name_prefix
-
-  cpu                = var.container_cpu
-  task_role_arn      = var.task_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].arn : var.task_role_arn
-  execution_role_arn = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].arn : var.execution_role_arn
-  ipc_mode           = var.ipc_mode
-  memory             = var.container_memory
-  network_mode       = "awsvpc" # awsvpc required for Fargate tasks
+  container_definitions = jsonencode(concat(var.additional_containers, [module.container_definition.json_map_object]))
+  cpu                   = var.container_cpu
+  execution_role_arn    = var.execution_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].arn : var.execution_role_arn
+  family                = "${var.name_prefix}-td"
+  ipc_mode              = var.ipc_mode
+  memory                = var.container_memory
+  network_mode          = "awsvpc" # awsvpc required for Fargate tasks
+  task_role_arn         = var.task_role_arn == null ? aws_iam_role.ecs_task_execution_role[0].arn : var.task_role_arn
 
   runtime_platform {
     cpu_architecture        = var.runtime_platform_cpu_architecture
