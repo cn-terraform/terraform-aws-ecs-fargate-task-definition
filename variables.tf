@@ -231,6 +231,7 @@ variable "mount_points" {
 variable "port_mappings" {
   description = "The port mappings to configure for the container. This is a list of maps. Each map should contain \"containerPort\", \"hostPort\", and \"protocol\", where \"protocol\" is one of \"tcp\" or \"udp\". If using containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort"
   type = list(object({
+    name          = optional(string)
     containerPort = number
     hostPort      = number
     protocol      = string
